@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Cat;
 //use App\Models\Email;
 use App\Models\Entity;
-use App\Models\Appimage;
 use App\Models\User;
 use App\Models\Province;
 use App\Models\City;
@@ -24,6 +23,7 @@ class EntitiesController extends Controller
     public function index(){
 
         $data=[
+          'user' => auth()->user(),
             'entity' => Entity::all(),
             'entities' => Entity::all(),
             'jobs' => job::all(),
@@ -36,6 +36,7 @@ class EntitiesController extends Controller
    
        public function create(){
            $data=[
+              'user' => auth()->user(),
                //'provinces' =>  DB::table('provinces')->pluck("name","id"),
                'countries'=>Province::all(),
                'provinces'=>Province::all(),
@@ -106,13 +107,14 @@ class EntitiesController extends Controller
    
        //get single edit records
        public function edit($id){
+        $user =auth()->user();
         $entities = Entity::all();
         $provinces = Province::all();
         $cats = Cat::all();
          $entity= Entity::find($id);
         $cities= City::where('province_id', $entity->province_id)->get();
         
-         return view('companies.edit', compact( 'cities', 'provinces', 'cats', 'entity'));
+         return view('companies.edit', compact( 'cities', 'provinces', 'cats', 'entity','user'));
    
        }
 
@@ -159,7 +161,7 @@ class EntitiesController extends Controller
                  }}*/
            $entity->save();
    
-            //  $data= new Appimage();
+            
    
             //  if($request->file('image')){
             //      $file= $request->file('image');

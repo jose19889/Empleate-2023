@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Entity;
+use App\Models\AppImages;
 use App\Models\Job;
+use File;
+use DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +26,7 @@ public $access_error = 'Error, no se le permite realizar esta acción.';
     $data = [
       'users' => User::all(),
       'roles' => Role::all(),
+      'user' => auth()->user(),
      
     ];
     return view('config.users.index', $data);
@@ -30,6 +34,7 @@ public $access_error = 'Error, no se le permite realizar esta acción.';
 
   public function create(){
     $data = [
+      'user' => auth()->user(),
         'users' => User::all(),
         'roles' => Role::all(),
         'entities' => Entity::all(),
@@ -40,7 +45,6 @@ public $access_error = 'Error, no se le permite realizar esta acción.';
 
   // save user to Database
   public function insert(Request $request){
-
     $validation = Validator::make($request->all(), [
        'name' => 'required',
        'second_name' => 'required',
@@ -52,11 +56,11 @@ public $access_error = 'Error, no se le permite realizar esta acción.';
      ]);
 
      //dd($validation);
- 
      if ($validation->fails()) {
        Session::flash('danger', 'Error, hay datos que no se imputaron en el formulario, por favor intentelo de nuevo.');
        return redirect()->back();
-     } else {
+     } 
+     else {
        $user = new User;
        $user->name = $request->name;
        $user->second_name = $request->second_name;
@@ -113,25 +117,31 @@ public $access_error = 'Error, no se le permite realizar esta acción.';
       return redirect()->intended('users');
     }
   }
-    //destroy recoreds
-    public function destroy($id)
-    {
-        $users = User::find($id) ;
-        //check roles counts
-        /*if($users->role()->count()) {
-            Session::flash('danger', 'Atencion, hay usuarios con este role asignado, no puede ser eliminado.');
-            return redirect()->back();
 
-        }*/
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //upload and save user photo profile
+  //////////////////////////////////////////////////////////////////////////////////////
 
-        if(Auth::user()->id == $users->id) {
-            Session::flash('', 'Cuidado, no puede eliminarse a si mismo.');
-            return redirect()->back();
-        }
-        $users->delete() ;
-        Session::flash('success', 'User was deleted') ;
-        return redirect()->intended('users');
+
+   ////////////////////////////////////////////////////////////////////////////////////
+    public function destroy($id){
+      $users = User::find($id) ;
+      //check roles counts
+      /*if($users->role()->count()) {
+          Session::flash('danger', 'Atencion, hay usuarios con este role asignado, no puede ser eliminado.');
+          return redirect()->back();
+
+      }*/
+
+      if(Auth::user()->id == $users->id) {
+          Session::flash('', 'Cuidado, no puede eliminarse a si mismo.');
+          return redirect()->back();
+      }
+      $users->delete() ;
+      Session::flash('success', 'User was deleted') ;
+      return redirect()->intended('users');
     }
+       
 
       //
     public function delete(Request $request)
@@ -169,36 +179,43 @@ public $access_error = 'Error, no se le permite realizar esta acción.';
 
   //////////////////////////////////////////////////////////////////////////////////////
   //////////// Profile settings
-  public function edit_userprofile($id){
 
-      $user = Auth::user();
-
-      $data=[
-          'role' => Role::find($user->role_id),
-          'user'=>User::find($id),
-          'users'=>User::all(),
-          'entities'=>Entity::all(),
-          'jobs'=>Job::all(),
-
-      ];
-    return view('users/profile', $data);
-  }
-//profile
+  //profile
   public function profile(){
-      $user = Auth::user();
+    $user = Auth::user();
 
-      $data=[
-          'user' => Auth::user(),
-          'role' => Role::find($user->role_id),
-          'users'=>User::all(),
-          'entities'=>Entity::all(),
-          'jobs'=>Job::all(),
+    $data=[
+        'user' => Auth::user(),
+        'role' => Role::find($user->role_id),
+        'users'=>User::all(),
+        'entities'=>Entity::all(),
+        'jobs'=>Job::all(),
+      
 
-      ];
+    ];
 
-      return view('users/profile', $data);
-  }
+    return view('config/users/profile', $data);
+}
+public function update_image(Request $request){
+  
+  if($request->hasFile('image')){
+    $filename = $request->image->getClientOriginalName();
+    $request->image->storeAs('images',$filename,'public');
+    Auth()->user()->update(['images'=>$filename]);
+}
 
+// $user=auth()->user()->id;
+
+// $user_image = new Image;
+
+// $user_image->user_id = $user;
+// $user_image->save();
+
+Session::flash('success', 'La foto de usuario fue cambiada, con exito!.');
+return redirect()->back();
+}
+
+ 
   //////////////////////////////////////////////////////////////////
   /////////////////////Reset passsowrd
     public function password_reset(Request $request)
@@ -226,6 +243,7 @@ public $access_error = 'Error, no se le permite realizar esta acción.';
         Session::flash('warning', 'Cuidado, la contraseña del usuario ' . $user->user . ' fue reseteada.');
         return redirect()->back();
     }
+    
     // Method used in the password reset exception
     public function reset(Request $request)
     {

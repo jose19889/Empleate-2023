@@ -7,7 +7,9 @@ use App\Models\Cat;
 use App\Models\Queque;
 use App\Models\Entity;
 use App\Models\job;
+use App\Mail\JobsAplly;
 use App\Models\User;
+use App\Models\Email;
 use App\Models\Province;
 use App\Models\UserJob;
 use App\Models\City;
@@ -26,32 +28,23 @@ class JobsController extends Controller
 {
      //add job offers
      public function index(){
+        if(auth()->user()->role_id=='1'){
+            $jobs=Job::all();
+        }else{
+            $jobs=Job::where('entity_id', '=', auth()->user()->entity_id)->get(); 
+        }
 
-    //    $jobs = UserJob::leftJoin('jobs', 'user_jobs.jobs_id', '=', 'jobs.id')
-    //    ->leftJoin('users', 'user_jobs.user_id', '=', 'users.id')
-    //         ->select([
-    //             'user_jobs.id',
-    //             //'files.age as file_age',
-    //             'user_jobs.id',
-    //             'user_jobs.jobs_id',
-    //             // 'Jobs.desc',
-    //             // 'files.bank_client',
-    //             // 'files.status_id',
-    //             // 'files.created_by',
-    //             // 'files.updated_by',
-    //             // 'files.last_department',
-         
-    //         ]);
-
-        //$user= User::where('user.entity_id','==','job.entity_id')->get();
          $data = [
              'entity' => Entity::all(),
              'entities' => Entity::all(),
-             'jobs' =>Job::where('entity_id', '=', auth()->user()->entity_id)->get(),
-             //'jobs' =>Job::all(),
+             'jobs'=>$jobs,
+             //'jobs' =>Job::where('entity_id', '=', auth()->user()->entity_id)->get(),
              'cat' => Cat::all(),
              'users' => User::all(),
+             'user' => auth()->user(),
          ];
+
+        
 
         
          return view('jobs/index', $data);
@@ -65,6 +58,7 @@ class JobsController extends Controller
              'entities' => Entity::all(),
              'cats' => Cat::all(),
              'users' => User::all(),
+             'user' => auth()->user(),
          ];
 
  
@@ -135,9 +129,9 @@ class JobsController extends Controller
         $provinces = Province::all();
         $cats = Cat::all();
          $job= job::find($id);
-
+        $user=  auth()->user();
          $cities= City::where('province_id', $job->province_id)->get();
-         return view('jobs.edit', compact( 'cities','job', 'provinces', 'cats', 'entities'));
+         return view('jobs.edit', compact( 'cities','job', 'provinces', 'cats', 'entities', 'user'));
      }
  
  
@@ -194,8 +188,8 @@ class JobsController extends Controller
  
  
     ///////////////////////////////////////////////////
-    ////////jobs fronted
-     //jobs offfers fronted
+    ////////jobs frontend
+    /////////////////////////////
      public function frontend()
      {
  
@@ -209,13 +203,12 @@ class JobsController extends Controller
          return view('layouts/jobs/dashboard', $data);
      }
  
-     //remove job data
- 
      // get submit job form
      public function getjobForm($id)
      {
  
          $data = [
+            'user' => auth()->user(),
              'job' => job::find($id),
              'entities' => Entity::all(),
              //'entities'=>Cat::all(),
@@ -227,7 +220,8 @@ class JobsController extends Controller
  
          if ($job = Job::find($id)) {
              $ent = Entity::all();
- 
+
+             $user= auth()->user()->email;
              $email = $job->Entity->email;
              //$email= $job->Entity->email;
  
@@ -236,9 +230,10 @@ class JobsController extends Controller
              Session::put('z', $job->Entity->id);
             Session::put('x', $job->Entity->email);
              Session::put('y', $job->job_title);
+             Session::put('aplicant_email',$email );
  
              //session()->set('y', $y);
-             return view('jobs/fronted/submit-form', $data);
+             return view('layouts/jobs/frontend/submit-form', $data);
  
              //$this->y= $job->Entity->email;
  
@@ -257,30 +252,29 @@ class JobsController extends Controller
          ]);
  
          $data = [
-             "emails.*"  => "required|string|distinct|min:3",
+            "emails.*"  => "required|string|distinct|min:3",
              'cats'=>Cat::all(),
              'message' => $request->message,
              'attachment' => $request->attachment,
              'title' => session('y'),
+             'applicant' =>session('aplicant_email'),
+             
  
          ];
- 
-         dd($data);
- 
          $path = public_path('uploads');
          $attachment = $request->file('attachment');
-         $name = time() . '.' . $attachment->getClientOriginalExtension();;
+         $name = time() . '.' . $attachment->getClientOriginalExtension();
  
            if ($email = session('x')) {
  
-                 \Mail::to($email)->send(new \App\Mail\Applyjobs($data));
+                 \Mail::to($email)->send(new \App\Mail\JobsAplly($data));
  
          }
  
          
  
-         //Session::flash('success', 'Felicidades, El correo fue enviado satisfactoriamente.');
-         return view('jobs.fronted/index', $data);
+         Session::flash('success', 'Felicidades, El correo fue enviado satisfactoriamente.');
+         return redirect()->intended('jobs/frontend');
      }
  
 }

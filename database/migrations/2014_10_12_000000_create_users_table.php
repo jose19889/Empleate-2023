@@ -17,11 +17,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('second_name');
             $table->integer('role_id');
-            $table->integer('entity_id');
+           // $table->integer('entity_id');
+           $table->string('entity_id')->default('Postulante');
             $table->integer('phone')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('password_reset')->default(true);
+            $table->string('images')->default('default.jpg');
             $table->timestamps();
             $table->rememberToken();
         });

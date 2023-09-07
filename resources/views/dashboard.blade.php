@@ -1,12 +1,9 @@
 @extends('layouts.app')
-
+@section('title', 'Ventana del Eacritorio')
 @section('content')
 <section class="section dashboard">
       <div class="row">
-      @if(Session::has('success'))
-            <p class="alert {{ Session::get('alert-class', 'alert-info') }}">
-              {{ Session::get('success') }}{{ Session::get('danger') }}</p>
-        @endif
+     @include('layouts.paths.alerts')
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">

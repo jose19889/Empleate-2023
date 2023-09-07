@@ -12,6 +12,7 @@ class DashboardController extends Controller
     public function index(){
 
         $data=[
+            'user' => auth()->user(),
             'jobs'=>Job::latest()->take(10)->get(),
             'entities'=>Entity::count(),
             'aplicants'=>User::where('role_id', '3')->count(),

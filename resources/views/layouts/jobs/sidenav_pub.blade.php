@@ -1,40 +1,40 @@
 <aside id="sidebar" class="sidebar">
 <!-- Card with an image overlay -->
 <div class="card">
-    <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+<img class="card-img-top" src=" {{ asset('/storage/entidades/job2_1.jpg') }}" alt="banner"><div class="card-img-overlay">
+   
     <div class="card-img-overlay">
-        <h5 class="card-title">Card with an image overlay</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <h5 class="card-title">EMPLEATE</h5>
+       
     </div>
     </div><!-- End Card with an image overlay -->
 <!-- Default Card -->
 </div><!-- End Card with an image on left -->
 <!-- Card with an image overlay -->
 <div class="card">
-    <img src="assets/img/card.jpg" class="card-img-top" alt="...">
-    <div class="card-img-overlay">
-        <h5 class="card-title">Card with an image overlay</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<img class="card-img-top" src=" {{ asset('/storage/entidades/getesa.jpg') }}" alt="banner">
+    <h5 class="card-title">banner 2</h5>
+     
     </div>
     </div><!-- End Card with an image overlay -->
 <!-- Default Card -->
 </div><!-- End Card with an image on left -->
 <!-- Card with an image overlay -->
 <div class="card">
-    <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+<img class="card-img-top" src=" {{ asset('/storage/entidades/gitge_1.jpg') }}" alt="banner">
     <div class="card-img-overlay">
-        <h5 class="card-title">Card with an image overlay</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <h5 class="card-title">banner2</h5>
+     
     </div>
     </div><!-- End Card with an image overlay -->
 <!-- Default Card -->
 </div><!-- End Card with an image on left -->
 <!-- Card with an image overlay -->
 <div class="card">
-    <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+<img class="card-img-top" src=" {{ asset('/storage/entidades/gitge_1.jpg') }}" alt="banner">
     <div class="card-img-overlay">
-        <h5 class="card-title">Card with an image overlay</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <h5 class="card-title">Banner 3</h5>
+
     </div>
     </div><!-- End Card with an image overlay -->
 <!-- Default Card -->

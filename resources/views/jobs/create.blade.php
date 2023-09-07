@@ -39,12 +39,16 @@
                 </div>
                 <div class="row mb-3">
                   <div class="offset-2 col-sm-4">
+                  @if(auth()->user()->role_id==1)
                     <select class="form-select"  name="entity_id" aria-label="Seleccionar Empresa" data-validation="required">
                         <option selected disabled>Seleccione la empresa</option>
                           @foreach($entities as $entity)
                               <option value="{{ $entity->id }}">{{ $entity->name }}</option>
                           @endforeach
                     </select>
+                   @else
+                   <input type="text" class="form-control" id="entity_id" name="entity_id" value="{{ auth()->user()->entity->name }}">
+                    @endif
                   </div>
 
                 

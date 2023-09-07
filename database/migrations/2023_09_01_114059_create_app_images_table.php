@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('userjobs', function (Blueprint $table) {
+        Schema::create('app_images', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('jobs_id');
-            $table->timestamps();
+            $table->string('images')->default('user.png') ;
+            $table->timestamps();;
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userjobs');
+        Schema::dropIfExists('app_images');
     }
 };

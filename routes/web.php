@@ -59,6 +59,7 @@ Route::group([
         Route::post('/update', [UsersController::class, 'update']);
         Route::get('/destroy/{id}', [UsersController::class, 'destroy']);
         Route::get('/profile', [UsersController::class, 'profile']);
+        Route::post('update_image',[UsersController::class,'update_image']);
         Route::get('/edit_userprofile/{id}', [UsersController::class, 'edit_userprofile'])->name('user.edit_userprofile');
         Route::post('/update_profile_password', [UsersController::class, 'update_profile_password'])->middleware('permission:users.update_profile_pass');
         Route::post('/password_reset', [UsersController::class, 'password_reset'])->middleware('permission:users.password_reset');

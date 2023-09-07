@@ -32,10 +32,10 @@ class Entity extends Model
         return $this->hasMany('App\Models\User', 'company_id', 'id');
     }*/
 
-    public function emails()
-    {
-        return $this->hasMany('App\Models\Email', 'entity_id', 'id');
-    }
+    // public function emails()
+    // {
+    //     return $this->hasMany('App\Models\Email', 'entity_id', 'id');
+    // }
 
 
     public function province(){

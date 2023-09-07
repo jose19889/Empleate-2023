@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appimage;
 use App\Models\Cat;
 use App\Models\Entity;
 use App\Models\Job;
@@ -23,6 +22,7 @@ class CatsController extends Controller
           'roles'=>Role::all(),
           'users'=>User::all(),
           'entities'=>Entity::all(),
+          'user' => auth()->user(),
   
       ];
         return view('jobs/categories/index', $data);
@@ -34,6 +34,7 @@ class CatsController extends Controller
           'roles'=>Role::all(),
           'users'=>User::all(),
           'entities'=>Entity::all(),
+          'user' => auth()->user(),
   
       ];
   
@@ -70,6 +71,7 @@ class CatsController extends Controller
       public function edit($id){
         $data = [
             'cat' => Cat::find($id),
+            'user' => auth()->user(),
   
         ];
           return view('jobs/categories/edit', $data);
@@ -125,11 +127,10 @@ class CatsController extends Controller
   
       public function GetcatID($id){
         $data = [
+          'user' => auth()->user(),
           'cat'=>Cat::find($id),
           'entities' => Entity::all(),
-            'imgs'=>Appimage::all(),
-            'txt'=>'ola mundo',
-  
+          'txt'=>'ola mundo',
           'jobs' => Job::all(),
          //'cats' => App\Cat::with('jobs')->where('name', $category)->get(),
   
@@ -137,7 +138,7 @@ class CatsController extends Controller
   
       ];
   
-      return view('jobs/cats/page', $data);
+      return view('layouts/jobs/frontend/list', $data);
   
       }
   

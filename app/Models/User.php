@@ -53,7 +53,9 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Entity', 'id', 'entity_id');
     }
 
-   
+    public function images(){
+        return $this->hasOne('App\Models\Entity', 'id', 'entity_id');
+    }
 
 
 }

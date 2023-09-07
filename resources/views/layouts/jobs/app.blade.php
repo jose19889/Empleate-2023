@@ -42,86 +42,13 @@
 <body>
 
   <!-- ======= Header ======= -->
- @include('layouts.paths.app_navigation')
+ @include('layouts.jobs.app_navigation')
   <!-- End Header -->
   <!-- ======= Sidebar ======= -->
 @include('layouts.jobs.sidenav_pub')
  <!-- End Sidebar-->
- @include('layouts.jobs.page')
   <!-- Start main-->
-  <main id="main" class="main bg-light">
-
-<div class="pagetitle" >
-  <nav>
-    <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house-door"></i></a></li>
-      <li class="breadcrumb-item">Home</li>
-      <li class="breadcrumb-item active"></li>
-    </ol>
-  </nav>
-</div><!-- End Page Title -->
-<hr>
-<section class="section">
-  <div class="container">
-  <div class="row align-items-top">
-  @if(Session::has('success'))
-      <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('success') }}
-        {{ Session::get('danger') }}</p>
-  @endif
-    <div class="col-lg-4">
-   
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Card with titles, buttons, and links</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button type="button" class="btn btn-info mb-2">
-               Vacancias <span class="badge bg-white text-info">34</span>
-          </button>
-         
-        </div>
-      </div><!-- End Card with titles, buttons, and links -->
-
-    </div>
-    <div class="col-lg-4">
-      <!-- Card with titles, buttons, and links -->
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Card with titles, buttons, and links</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button type="button" class="btn btn-info mb-2">
-               Vacancias <span class="badge bg-white text-info">34</span>
-          </button>
-         
-        </div>
-      </div><!-- End Card with titles, buttons, and links -->
-
-
-    </div>
-    <div class="col-lg-4">
-    
-      <!-- Card with titles, buttons, and links -->
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Card with titles, buttons, and links</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button type="button" class="btn btn-info mb-2">
-               Vacancias <span class="badge bg-white text-info">34</span>
-          </button>
-          
-        </div>
-      </div><!-- End Card with titles, buttons, and links -->
-
-
-    </div>
-    </div>
-  </div>
-</section>
-
-</main><!-- End #main -->
-
+@yield('content')
   <!-- End #main -->
  <!-- ======= Footer ======= -->
  @include('layouts.paths.app_footer')

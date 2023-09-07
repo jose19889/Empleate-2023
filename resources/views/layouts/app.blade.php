@@ -31,10 +31,7 @@
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
 
   <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Updated: Mar 09 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
+  * Template Name: EMPLEATE GE
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
@@ -52,13 +49,7 @@
 
     <div class="pagetitle">
       <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{{ url('dashboard/index') }}">Home</a></li>
-          <li class="breadcrumb-item active">@yield('title')</li>
-        </ol>
-        
-      </nav>
+      @include('layouts.paths.heading')
     </div><!-- End Page Title -->
    <!--begin::Content-->
    @yield('content')
